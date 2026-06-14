@@ -1,8 +1,5 @@
 # Core Dependencies
 streamlit>=1.29.0
-pandas>=2.0.0
-numpy>=1.24.0
-plotly>=5.17.0
 
 # Development Dependencies
 pytest>=7.4.0

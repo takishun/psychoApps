@@ -1,112 +1,80 @@
 """
-psychoApps - 子育てフレーズ集
-メインアプリケーション
+psychoApps - 心理テストサイト
+トップページ（テスト一覧）
 """
-from typing import Dict, List
+from dataclasses import dataclass
+from typing import List
+
 import streamlit as st
+
+from src.test_template import DISCLAIMER
+
+
+@dataclass
+class TestEntry:
+    """トップページに並べるテストの紹介情報。"""
+
+    icon: str
+    name: str
+    summary: str
+    page_path: str  # st.page_link に渡すページファイルのパス
+
+
+# サイトに収録するテスト一覧
+TESTS: List[TestEntry] = [
+    TestEntry(
+        icon="🌤️",
+        name="ストレス度チェック",
+        summary="最近のストレスの溜まり具合を8問でセルフチェック。",
+        page_path="pages/1_ストレス度チェック.py",
+    ),
+    TestEntry(
+        icon="🧭",
+        name="性格タイプ診断",
+        summary="内向／外向の傾向から、あなたの性格タイプを診断。",
+        page_path="pages/2_性格タイプ診断.py",
+    ),
+    TestEntry(
+        icon="💬",
+        name="コミュニケーションタイプ診断",
+        summary="対人関係での関わり方のタイプを6問で診断。",
+        page_path="pages/3_コミュニケーションタイプ診断.py",
+    ),
+]
 
 
 def main() -> None:
-    """メインアプリケーション"""
-
-    # ページ設定（必ず最初に実行）
+    """トップページを描画する。"""
     st.set_page_config(
-        page_title="psychoApps - 子育てフレーズ集",
-        page_icon="👶",
-        layout="wide",
-        initial_sidebar_state="expanded"
+        page_title="psychoApps - 心理テストサイト",
+        page_icon="🧠",
+        layout="centered",
+        initial_sidebar_state="expanded",
     )
 
-    # セッション状態の初期化
-    if 'visited' not in st.session_state:
-        st.session_state.visited = False
-
-    # ヘッダー
-    st.title("👶 psychoApps")
-    st.subheader("子育てでよく使うフレーズをすぐに送信")
-
-    # ウェルカムメッセージ
-    st.markdown("""
-    ようこそ！ psychoApps は、子育てでよく使うフレーズを簡単に検索・コピーできる
-    アプリケーションです。保育園への連絡、祖父母への依頼、パートナーとの共有など、
-    様々な場面で使える100以上のフレーズを収録しています。
-    """)
+    st.title("🧠 psychoApps")
+    st.subheader("かんたん心理テストで自分を知ろう")
+    st.write(
+        "気軽に取り組める心理テストを集めたサイトです。"
+        "気になるテストを選んで、いくつかの質問に答えるだけで結果が分かります。"
+    )
 
     st.divider()
+    st.header("📋 テスト一覧")
 
-    # フレーズ集の案内セクション
-    st.header("📋 子育てフレーズ集について")
-
-    # フレーズ集の説明
-    st.markdown("""
-    左のサイドバーから「子育てフレーズ集」を選択してください。
-    カテゴリ別に整理された100以上のフレーズから、すぐに使いたいものを検索・選択できます。
-    """)
-
-    # 統計情報
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.metric(
-            label="収録フレーズ数",
-            value="100+",
-            delta="11カテゴリ"
-        )
-
-    with col2:
-        st.metric(
-            label="利用シーン",
-            value="多彩",
-            delta="保育園・家族・パートナー"
-        )
-
-    with col3:
-        st.metric(
-            label="使いやすさ",
-            value="簡単",
-            delta="検索・コピー・送信"
-        )
+    for test in TESTS:
+        with st.container(border=True):
+            st.markdown(f"### {test.icon} {test.name}")
+            st.write(test.summary)
+            st.page_link(test.page_path, label="このテストを始める ▶️")
 
     st.divider()
-
-    # 使い方セクション
-    with st.expander("📖 使い方ガイド", expanded=False):
-        st.markdown("""
-        ### 基本的な使い方
-
-        1. **ページを開く**: 左のサイドバーから「子育てフレーズ集」を選択
-        2. **検索する**: キーワードで検索ボックスから絞り込み（例: 「おはよう」「食事」）
-        3. **カテゴリを選択**: サイドバーから特定のカテゴリを選択
-        4. **フレーズをクリック**: 使いたいフレーズをクリックして選択
-        5. **コピー&送信**: 表示されたフレーズをコピーしてLINEなどに送信
-
-        ### こんな場面で便利
-
-        - 🏫 保育園・幼稚園の先生への連絡
-        - 👵 祖父母への子育て依頼メッセージ
-        - 💑 パートナーとの子育て情報共有
-        - 👨‍👩‍👧 ベビーシッターへの指示・お願い
-
-        ### 収録カテゴリ
-
-        朝の挨拶・起床、食事、遊び・外出、励まし・ほめる、しつけ・注意、
-        お風呂、就寝・夜、トイレ・おむつ、お出かけ準備、感情のサポート、
-        お手伝い・生活習慣
-        """)
-
-    # フッター
-    st.divider()
-    st.markdown("""
-    <div style='text-align: center; color: #666;'>
-        <small>
-        psychoApps - 子育てフレーズ集 👶<br>
-        子育てを応援します | Made with ❤️ using Streamlit
-        </small>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # セッション状態を更新
-    st.session_state.visited = True
+    st.caption(DISCLAIMER)
+    st.markdown(
+        "<div style='text-align:center;color:#888;'>"
+        "<small>psychoApps 🧠 | Made with Streamlit</small></div>",
+        unsafe_allow_html=True,
+    )
 
 
 if __name__ == "__main__":
