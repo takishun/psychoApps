@@ -5,10 +5,16 @@
 **psychoApps** is a Streamlit-based application project. Streamlit is a Python framework for building interactive data applications and dashboards with minimal code.
 
 ### Project Status
-- **Current State**: Early initialization phase
+- **Current State**: 心理テストサイト（複数の心理テストを収録するStreamlitアプリ）
 - **Primary Technology**: Python + Streamlit
 - **Repository Type**: Git-based version control
 - **Development Branch**: Feature branches prefixed with `claude/`
+
+### Application Overview
+- トップページ (`app.py`) に収録テスト一覧を表示し、各テストは `pages/` 配下のマルチページとして実装。
+- すべての心理テストは `src/test_template.py` の `PsychologicalTest` 基底クラスを継承し、`get_questions()` と `get_results()` を実装するだけで動作する。
+- 新しいテストを追加する手順は README.md「新しいテストの追加方法」を参照。
+- 収録テストは医学的診断ではなく自己理解向けの簡易的なもの（`DISCLAIMER` を全ページに表示）。
 
 ## Repository Structure
 
