@@ -42,6 +42,7 @@ class StressTest(PsychologicalTest):
                 score_range=(0, 6),
                 advice="今の生活リズムや息抜きの習慣を大切に続けていきましょう。",
                 emoji="🌱",
+                affiliate_group="general",
             ),
             Result(
                 title="ややストレスが溜まり気味です",
@@ -51,6 +52,7 @@ class StressTest(PsychologicalTest):
                 advice="意識して休息をとり、好きなことに時間を使ってみましょう。"
                 "睡眠時間の確保も効果的です。",
                 emoji="⛅",
+                affiliate_group="stress_relief",
             ),
             Result(
                 title="ストレスがかなり溜まっています",
@@ -60,6 +62,7 @@ class StressTest(PsychologicalTest):
                 advice="信頼できる人に気持ちを話したり、必要に応じて"
                 "専門家に相談することも検討してみてください。",
                 emoji="🌧️",
+                affiliate_group="stress_relief",
             ),
         ]
 
@@ -71,6 +74,7 @@ def main() -> None:
         name="ストレス度チェック",
         description="最近2週間のあなたの状態について、8つの質問に答えてください。",
         icon="🌤️",
+        affiliate_group="stress_relief",
     ).run()
 
 

@@ -13,6 +13,8 @@ from typing import Dict, List, Optional, Tuple
 
 import streamlit as st
 
+from src.affiliate import render_affiliate_cards, render_affiliate_sidebar
+
 
 # 結果が医療行為ではないことを示す共通の免責文
 DISCLAIMER = (
@@ -40,6 +42,7 @@ class Result:
     score_range: Tuple[int, int]  # (最小スコア, 最大スコア) いずれも含む
     advice: Optional[str] = None
     emoji: str = "✨"
+    affiliate_group: Optional[str] = None  # 結果に連動したおすすめ枠のグループ名
 
     def contains(self, score: int) -> bool:
         """``score`` がこの結果の範囲に含まれるか判定する。"""
@@ -62,6 +65,7 @@ class PsychologicalTest(ABC):
     name: str
     description: str
     icon: str = "🧠"
+    affiliate_group: str = "general"  # 結果に個別指定が無い場合に使う既定のおすすめ枠
     _state_key: str = field(init=False)
 
     def __post_init__(self) -> None:
@@ -164,6 +168,14 @@ class PsychologicalTest(ABC):
         else:
             st.warning("該当する結果が見つかりませんでした。")
 
+        # 結果直下は最も関心が高まる位置。結果に連動したおすすめ枠を表示する。
+        group = (
+            result.affiliate_group
+            if result is not None and result.affiliate_group
+            else self.affiliate_group
+        )
+        render_affiliate_cards(group)
+
         st.caption(DISCLAIMER)
         st.divider()
         if st.button("🔄 もう一度診断する", use_container_width=True):
@@ -175,6 +187,9 @@ class PsychologicalTest(ABC):
         """テストを実行する。Streamlit ページから呼び出す。"""
         self._init_state()
         self._render_header()
+
+        # サイドバーは常時表示されるためCTRの補完に有効。
+        render_affiliate_sidebar(self.affiliate_group)
 
         state = st.session_state[self._state_key]
         questions = self.get_questions()

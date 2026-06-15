@@ -86,6 +86,7 @@ def main() -> None:
         name="コミュニケーションタイプ診断",
         description="6つの質問から、対人関係での関わり方の傾向を診断します。",
         icon="💬",
+        affiliate_group="communication",
     ).run()
 
 

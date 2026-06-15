@@ -86,6 +86,7 @@ def main() -> None:
         name="性格タイプ診断",
         description="6つの質問から、あなたのエネルギーの向き（内向／外向）の傾向を診断します。",
         icon="🧭",
+        affiliate_group="self_growth",
     ).run()
 
 

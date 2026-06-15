@@ -7,6 +7,7 @@ from typing import List
 
 import streamlit as st
 
+from src.affiliate import render_affiliate_cards, render_affiliate_sidebar
 from src.test_template import DISCLAIMER
 
 
@@ -67,6 +68,10 @@ def main() -> None:
             st.markdown(f"### {test.icon} {test.name}")
             st.write(test.summary)
             st.page_link(test.page_path, label="このテストを始める ▶️")
+
+    # 回遊中のユーザー向けのおすすめ枠（サイドバー＋本文）
+    render_affiliate_sidebar("general")
+    render_affiliate_cards("general", heading="🎁 おすすめピックアップ")
 
     st.divider()
     st.caption(DISCLAIMER)

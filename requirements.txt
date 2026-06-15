@@ -1,5 +1,5 @@
 # Core Dependencies
-streamlit>=1.29.0
+streamlit>=1.31.0
 
 # Development Dependencies
 pytest>=7.4.0
