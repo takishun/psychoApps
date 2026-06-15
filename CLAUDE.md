@@ -15,7 +15,7 @@
 - すべての心理テストは `src/test_template.py` の `PsychologicalTest` 基底クラスを継承し、`get_questions()` と `get_results()` を実装するだけで動作する。
 - 新しいテストを追加する手順は README.md「新しいテストの追加方法」を参照。
 - 収録テストは医学的診断ではなく自己理解向けの簡易的なもの（`DISCLAIMER` を全ページに表示）。
-- アフィリエイト枠は `src/affiliate.py` に集約。結果ページ直下（高CTR）・サイドバー・トップページに表示し、`AFFILIATE_GROUPS` のキーで結果テーマに連動させる。`url` はダミー（要差し替え）、全枠に「広告（PR）」表記を表示。
+- アフィリエイト枠は `src/affiliate.py` に集約（A8.netメイン）。結果ページ直下（高CTR）・サイドバー・トップページに表示し、`AFFILIATE_SNIPPETS` のキー（結果テーマ）でグループ分け。現状は枠だけ確保しプレースホルダ表示、A8.netのHTMLコードを `AFFILIATE_SNIPPETS` に貼れば有効化。全枠に「広告（PR）」表記を表示。
 
 ## Repository Structure
 

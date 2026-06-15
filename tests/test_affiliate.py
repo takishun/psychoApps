@@ -1,20 +1,15 @@
 """src.affiliate のロジックに対するテスト。"""
-from src.affiliate import AFFILIATE_GROUPS, AffiliateItem, get_items
+from src.affiliate import AFFILIATE_SNIPPETS, get_snippet
 
 
-def test_get_items_known_group() -> None:
-    items = get_items("stress_relief")
-    assert items is AFFILIATE_GROUPS["stress_relief"]
-    assert all(isinstance(i, AffiliateItem) for i in items)
+def test_expected_groups_exist() -> None:
+    for key in ("stress_relief", "self_growth", "communication", "general"):
+        assert key in AFFILIATE_SNIPPETS
 
 
-def test_get_items_unknown_group_falls_back_to_general() -> None:
-    assert get_items("does-not-exist") is AFFILIATE_GROUPS["general"]
+def test_get_snippet_known_group() -> None:
+    assert get_snippet("general") == AFFILIATE_SNIPPETS["general"]
 
 
-def test_all_items_have_url_and_cta() -> None:
-    for group, items in AFFILIATE_GROUPS.items():
-        assert items, f"group '{group}' must not be empty"
-        for item in items:
-            assert item.url.startswith("http")
-            assert item.cta
+def test_get_snippet_unknown_group_falls_back_to_general() -> None:
+    assert get_snippet("does-not-exist") == AFFILIATE_SNIPPETS["general"]
