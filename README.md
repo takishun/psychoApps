@@ -53,9 +53,11 @@ psychoApps/
 │   ├── 2_性格タイプ診断.py
 │   └── 3_コミュニケーションタイプ診断.py
 ├── src/
-│   └── test_template.py                # 心理テスト共通テンプレート（基底クラス）
+│   ├── test_template.py                # 心理テスト共通テンプレート（基底クラス）
+│   └── affiliate.py                    # アフィリエイト枠の共通コンポーネント
 ├── tests/
-│   └── test_template.py                # テンプレートのユニットテスト
+│   ├── test_template.py                # テンプレートのユニットテスト
+│   └── test_affiliate.py               # アフィリエイトロジックのテスト
 ├── .streamlit/config.toml              # Streamlit設定
 ├── requirements.txt
 ├── CLAUDE.md
@@ -81,6 +83,25 @@ class MyTest(PsychologicalTest):
     def get_results(self):
         return [Result(title="...", description="...", score_range=(0, 1))]
 ```
+
+## アフィリエイト枠
+
+CTR（クリック率）が高くなりやすい位置に、結果内容と連動したおすすめ枠を表示します。
+
+- **結果ページの結果直下** … 最も関心が高まる位置（メイン）
+- **サイドバー** … テスト中も常時表示
+- **トップページ** … 回遊中のユーザーに訴求
+
+設定は `src/affiliate.py` の `AFFILIATE_GROUPS` に集約されています。
+運用時は各 `url` を実際のアフィリエイトリンク（A8.net / 楽天アフィリエイト /
+Amazonアソシエイト など）に置き換えてください。`https://example.com/...` はダミーです。
+
+各テストは結果テーマに合うグループを参照します（例: ストレス度チェック →
+`stress_relief`、性格タイプ診断 → `self_growth`）。テスト単位の既定は
+`PsychologicalTest(..., affiliate_group="...")`、結果単位は
+`Result(..., affiliate_group="...")` で指定できます。
+
+> 景品表示法（ステマ規制）対応として、すべての枠に「広告（PR）」表記を表示しています。
 
 ## テスト
 
